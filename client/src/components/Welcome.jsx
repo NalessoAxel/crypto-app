@@ -34,6 +34,8 @@ const Welcome = () => {
 		isLoading,
 	} = useContext(TransactionContext);
 
+	console.log({ currentAccount });
+
 	const handleSubmit = (e) => {
 		const { adressTo, amount, message, keyword } = formData;
 		console.log(formData);

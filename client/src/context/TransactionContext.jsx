@@ -63,6 +63,7 @@ export const TransactionProvider = ({ children }) => {
 			const accounts = await ethereum.request({
 				method: 'eth_requestAccounts',
 			});
+			console.log('acc:', accounts);
 
 			setCurrentAccount(accounts[0]);
 		} catch (error) {
@@ -88,7 +89,10 @@ export const TransactionProvider = ({ children }) => {
 
 	useEffect(() => {
 		checkIfWalletIsConnected();
+		connectWallet();
 	}, []);
+
+
 
 	return (
 		<TransactionContext.Provider
