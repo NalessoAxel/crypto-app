@@ -31,18 +31,18 @@ const Welcome = () => {
 		handleChange,
 		sendTransaction,
 		formData,
+		setformData,
 		isLoading,
 	} = useContext(TransactionContext);
 
-	console.log({ currentAccount });
+	console.log(currentAccount);
 
 	const handleSubmit = (e) => {
-		const { adressTo, amount, message, keyword } = formData;
-		console.log(formData);
+		const { addressTo, amount, message, keyword } = formData;
 
 		e.preventDefault();
 
-		if (!adressTo || !amount || !message || !keyword) return;
+		if (!addressTo || !amount || !message || !keyword) return;
 
 		sendTransaction();
 	};
@@ -60,7 +60,7 @@ const Welcome = () => {
 						Krypto.
 					</p>
 
-					{!currentAccount && (
+					{!currentAccount ? (
 						<button
 							type="button"
 							onClick={connectWallet}
@@ -68,6 +68,10 @@ const Welcome = () => {
 						>
 							<p className="text-white">Connect Wallet</p>
 						</button>
+					) : (
+						<div>
+							<p className="text-white font-light text-sm">Already connected</p>
+						</div>
 					)}
 
 					<div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">

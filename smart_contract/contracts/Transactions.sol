@@ -1,39 +1,37 @@
-// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.0; //Have to declare wich version wwe are using
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+ import "../node_modules/hardhat/console.sol";
 
 contract Transactions {
-    uint256 transactionCount; // number of transactions
+    uint256 transactionCount;
 
-    event Transfer(address from, address receiver, uint amount, string message, uint256 timestamp, string keyword); // function that imit our call later on
+    event Transfer(address from, address receiver, uint amount, string message, uint256 timestamp, string keyword);
 
-    struct transferStruct {
-        address from;
+    struct TransferStruct {
+        address sender;
         address receiver;
         uint amount;
         string message;
         uint256 timestamp;
-        string keyword; 
-    } 
+        string keyword;
+    }
 
-    // define array of structs
+    TransferStruct[] transactions;
 
-    transferStruct[] transactions;
-    
-    function addToBlockChain(address payable receiver, uint amount, string memory message, string memory keyword ) public { // message: passing data to blockchain
-        transactionCount += 1; // increment the counter
+    function addToBlockchain(address payable receiver, uint amount, string memory message, string memory keyword) public {
+        transactionCount += 1;
+        transactions.push(TransferStruct(msg.sender, receiver, amount, message, block.timestamp, keyword));
 
-        transactions.push(transferStruct({from: msg.sender, receiver: receiver, amount: amount, message: message, timestamp: block.timestamp, keyword: keyword})); // push to the array and store the transations
+        emit Transfer(msg.sender, receiver, amount, message, block.timestamp, keyword);
+    }
 
-        emit Transfer(msg.sender, receiver, amount, message, block.timestamp, keyword); // emit the event and transfer the amount
-    }   
-
-    function getallTransactions() public view returns(transferStruct[] memory) {
+    function getAllTransactions() public view returns (TransferStruct[] memory) {
         return transactions;
-    }    
+    }
 
-    function getTransactionsCount() public view returns (uint256) {
+    function getTransactionCount() public view returns (uint256) {
         return transactionCount;
-    }   
-
+    }
 }
